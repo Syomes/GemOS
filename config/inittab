@@ -1,0 +1,9 @@
+# ======================
+# Syos inittab
+# ======================
+
+# sysinit: mount file system, initialize devices, load extensions
+::sysinit:/etc/init.d/rcS
+
+# Spawn shell, reboot after killed
+::respawn:/bin/sh
