@@ -21,10 +21,12 @@ if [ ! -f "isoroot/boot/initramfs" ]; then
     exit 1
 fi
 
+# Kernel
 echo "==> Copying kernel..."
 mkdir -p isoroot/boot external/boot build
 cp "$KERNEL_SRC" "$KERNEL_DST"
 
+# EFI
 echo "==> Building GRUB EFI..."
 grub-mkstandalone \
     --format=x86_64-efi \
@@ -37,6 +39,7 @@ mkfs.vfat "$EFI_IMG" > /dev/null
 mmd -i "$EFI_IMG" ::/EFI ::/EFI/BOOT
 mcopy -i "$EFI_IMG" "$EFI_EFI" ::/EFI/BOOT/BOOTx64.EFI
 
+# ISO
 echo "==> Building ISO..."
 xorriso -as mkisofs \
     -V "SYOS" \

@@ -6,4 +6,4 @@
 ::sysinit:/etc/init.d/rcS
 
 # Spawn shell, reboot after killed
-::respawn:/bin/sh
+::respawn:/bin/cttyhack /bin/sh

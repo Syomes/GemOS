@@ -12,12 +12,12 @@ build: fetch
 
 fetch:
 	@sh scripts/fetch-kernel.sh
-	@sh scripts/fetch-rootfs.sh
+	@sh scripts/fetch-busybox.sh
 
 run:
 	@if [ ! -f "$(ISO_FILE)" ]; then \
 		sh scripts/fetch-kernel.sh && \
-		sh scripts/fetch-rootfs.sh && \
+		sh scripts/fetch-busybox.sh && \
 		sh scripts/build-initramfs.sh && \
 		sh scripts/build-iso.sh; \
 	fi
