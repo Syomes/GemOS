@@ -5,10 +5,9 @@
 set -e
 
 BASE_URL="https://busybox.net/downloads/binaries"
-OUT_DIR="external/rootfs"
-OUT_FILE="$OUT_DIR/busybox"
+PKGPATH="external/pkg"
 
-mkdir -p "$OUT_DIR"
+mkdir -p $PKGPATH
 
 echo "==> Resolving latest BusyBox (x86_64-musl)..."
 
@@ -24,14 +23,14 @@ DL_URL="$BASE_URL/${LATEST_DIR}busybox"
 echo "==> Latest version found: ${LATEST_DIR%/}"
 
 # Check if already downloaded
-if [ -f "$OUT_FILE" ]; then
+if [ -f "$PKGPATH/busybox" ]; then
     # TODO: sum check for version
     echo "==> busybox binary already exists, skipping download."
     exit 0
 fi
 
 echo "==> Downloading busybox from $DL_URL..."
-curl -Lf "$DL_URL" -o "$OUT_FILE"
-chmod +x "$OUT_FILE"
+curl -Lf "$DL_URL" -o "$PKGPATH/busybox"
+chmod +x "$PKGPATH/busybox"
 
-echo "==> BusyBox ready: $OUT_FILE"
+echo "==> BusyBox ready: $PKGPATH/busybox"

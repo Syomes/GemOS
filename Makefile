@@ -36,7 +36,7 @@ run:
 
 clean:
 	@echo "==> Cleaning build artifacts..."
-	@rm -rf $(BUILD_DIR) isoroot external/boot tmp_root tmp_apk_static
+	@rm -rf $(BUILD_DIR) tmp
 	@echo "==> Done."
 
 clean-all: clean

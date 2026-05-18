@@ -4,11 +4,12 @@
 # ======================
 set -e
 
-BUSYBOX_BIN="external/rootfs/busybox"
+ROOT_PATH="$(pwd)"
+BUSYBOX_BIN="external/pkg/busybox"
 RCS_TEMPLATE="config/rcS"
 INITTAB_TEMPLATE="config/inittab"
-OUTPUT="isoroot/boot/initramfs"
-TMP="tmp_root"
+OUTPUT_PATH="tmp/isoroot/boot"
+TMP_SLASH="tmp/slash"
 
 if [ ! -f "$BUSYBOX_BIN" ]; then
     echo "ERROR: $BUSYBOX_BIN not found, run fetch-busybox first" >&2
@@ -16,43 +17,43 @@ if [ ! -f "$BUSYBOX_BIN" ]; then
 fi
 
 echo "==> Assembling rootfs..."
-rm -rf "$TMP"
-mkdir -p "$TMP"
+rm -rf "$TMP_SLASH"
+mkdir -p "$TMP_SLASH"
 
 # Create directory tree
-mkdir -p "$TMP/bin" "$TMP/sbin" "$TMP/etc" "$TMP/proc" "$TMP/sys" "$TMP/dev" "$TMP/tmp" "$TMP/lib" "$TMP/root" "$TMP/run"
-mkdir -p "$TMP/usr/bin" "$TMP/usr/sbin" "$TMP/etc/init.d" "$TMP/etc/syos/init.d"
+mkdir -p "$TMP_SLASH/bin" "$TMP_SLASH/sbin" "$TMP_SLASH/etc" "$TMP_SLASH/proc" "$TMP_SLASH/sys" "$TMP_SLASH/dev" "$TMP_SLASH/tmp" "$TMP_SLASH/lib" "$TMP_SLASH/root" "$TMP_SLASH/run"
+mkdir -p "$TMP_SLASH/usr/bin" "$TMP_SLASH/usr/sbin" "$TMP_SLASH/etc/init.d" "$TMP_SLASH/etc/syos/init.d"
 
 # Install BusyBox
-cp "$BUSYBOX_BIN" "$TMP/bin/busybox"
-chmod +x "$TMP/bin/busybox"
+cp "$BUSYBOX_BIN" "$TMP_SLASH/bin/busybox"
+chmod +x "$TMP_SLASH/bin/busybox"
 
 # Create symlinks for all applets
 echo "==> Installing BusyBox applets..."
-cd "$TMP"
+cd "$TMP_SLASH"
 ./bin/busybox --list-full | while read -r applet; do
     mkdir -p "$(dirname "$applet")"
     ln -sf /bin/busybox "$applet"
 done
-cd ..
+cd "$ROOT_PATH"
 
 # Install Init scripts
 echo "==> Installing init config..."
-cp "$RCS_TEMPLATE" "$TMP/etc/init.d/rcS"
-cp "$INITTAB_TEMPLATE" "$TMP/etc/inittab"
-chmod +x "$TMP/etc/init.d/rcS"
+cp "$RCS_TEMPLATE" "$TMP_SLASH/etc/init.d/rcS"
+cp "$INITTAB_TEMPLATE" "$TMP_SLASH/etc/inittab"
+chmod +x "$TMP_SLASH/etc/init.d/rcS"
 
 # Applying extensions
 echo "==> Applying extensions..."
-sh scripts/extensions.sh "$TMP"
+sh scripts/extensions.sh "$TMP_SLASH"
 
 # Packing initramfs
 echo "==> Packing initramfs..."
-mkdir -p isoroot/boot
-cd "$TMP" && find . -print0 \
+mkdir -p $OUTPUT_PATH
+cd "$TMP_SLASH" && find . -print0 \
     | cpio --null -ov --format=newc 2>/dev/null \
-    | gzip -9 > "../$OUTPUT"
-cd ..
+    | gzip -9 > "initramfs"
+cd "$ROOT_PATH"
+mv "$TMP_SLASH/initramfs" "$OUTPUT_PATH"
 
-rm -rf "$TMP"
-echo "==> initramfs ready: $OUTPUT"
+echo "==> initramfs ready: $OUTPUT_PATH"

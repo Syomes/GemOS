@@ -5,10 +5,11 @@
 set -e
 
 KERNEL_SRC="external/kernel/vmlinuz"
-KERNEL_DST="isoroot/boot/vmlinuz"
+KERNEL_DST="tmp/isoroot/boot/vmlinuz"
+INITRAMFS_SRC="tmp/isoroot/boot/initramfs"
 GRUB_CFG="grub.cfg"
-EFI_IMG="external/boot/efi.img"
-EFI_EFI="external/boot/BOOTx64.EFI"
+EFI_IMG="tmp/isoroot/boot/efi.img"
+EFI_EFI="tmp/isoroot/boot/BOOTx64.EFI"
 ISO_OUT="build/syos.iso"
 
 if [ ! -f "$KERNEL_SRC" ]; then
@@ -16,14 +17,14 @@ if [ ! -f "$KERNEL_SRC" ]; then
     exit 1
 fi
 
-if [ ! -f "isoroot/boot/initramfs" ]; then
+if [ ! -f "$INITRAMFS_SRC" ]; then
     echo "ERROR: initramfs not found, run build-initramfs first" >&2
     exit 1
 fi
 
 # Kernel
 echo "==> Copying kernel..."
-mkdir -p isoroot/boot external/boot build
+mkdir -p build
 cp "$KERNEL_SRC" "$KERNEL_DST"
 
 # EFI
@@ -51,6 +52,8 @@ xorriso -as mkisofs \
     -no-emul-boot \
     -isohybrid-gpt-basdat \
     -append_partition 2 0xef "$EFI_IMG" \
-    ./isoroot > /dev/null 2>&1
+    tmp/isoroot > /dev/null 2>&1
 
+echo "==> cleaning up..."
+rm -rf tmp
 echo "==> ISO ready: $ISO_OUT"
