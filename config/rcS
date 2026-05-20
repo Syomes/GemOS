@@ -16,9 +16,6 @@ export HOME=/root
 export TERM=linux
 hostname syos
 
-# --- Device Enumeration ---
-mdev -s 2>/dev/null || true
-
 # --- Load Extensions ---
 if [ -d /etc/syos/init.d ]; then
     for f in /etc/syos/init.d/*; do

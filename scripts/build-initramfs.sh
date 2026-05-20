@@ -47,6 +47,8 @@ chmod +x "$TMP_SLASH/etc/init.d/rcS"
 echo "==> Applying extensions..."
 sh scripts/extensions.sh "$TMP_SLASH"
 
+depmod -b "$TMP_SLASH" "$(uname -r)"
+
 # Packing initramfs
 echo "==> Packing initramfs..."
 mkdir -p $OUTPUT_PATH
