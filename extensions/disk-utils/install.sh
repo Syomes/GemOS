@@ -1,30 +1,35 @@
 #!/bin/sh
 # ======================
-# Extension: Disk
+# Extension: Disk Utils
 # ======================
 
 PKGPATH="external/pkg/disk"
-UTIL_LINUX_URL="https://github.com/pkgforge-dev/util-linux-static/releases/latest/download"
 KERNEL_VERSION="$(uname -r)"
 ROOT_PATH="$(pwd)/tmp/slash"
+PKGFORGE_URL="https://pkgs.pkgforge.dev/dl/bincache/x86_64-linux"
 MODULE_PATH="tmp/slash/lib/modules/$KERNEL_VERSION"
 INIT_D_DIR="tmp/slash/etc/gemos/init.d"
 
-fetch_util_linux() {
-    if [ -f "$PKGPATH/$1" ]; then
-        echo "$1 exists, skipping..."
+fetch() {
+    if [ -f "$PKGPATH/$2" ]; then
+        echo "$2 exists, skipping..."
     else
-        wget -q --show-progress "$UTIL_LINUX_URL/$1-x86_64-Linux" -O "$PKGPATH/$1"
+        echo "Downloading $2..."
+        curl -fL --progress-bar "$PKGFORGE_URL/$1/nixpkgs/$2/raw.dl" -o "$PKGPATH/$2"
     fi
-    cp "$PKGPATH/$1" "$ROOT_PATH/bin/$1"
-    chmod +x "$ROOT_PATH/bin/$1"
+    cp "$PKGPATH/$2" "$ROOT_PATH/bin/$2"
+    chmod +x "$ROOT_PATH/bin/$2"
 }
 
 echo "Installing extension: Disk"
 mkdir -p "$PKGPATH"
 
 for i in lsblk sfdisk cfdisk findmnt wipefs; do
-    fetch_util_linux "$i"
+    fetch "util-linux" "$i"
+done
+
+for i in mkfs.ext4 fsck.ext4; do
+    fetch "e2fsprogs" "$i"
 done
 
 grab_module() {
@@ -52,6 +57,7 @@ grab_module() {
     done
 }
 
+echo "==> Grabbing modules..."
 for main_mod in "usb-storage" "uas" "ahci" "nvme" "nvme_auth" "nvme_keyring" "sd_mod" "loop" "isofs" "vfat" "ext4" "ntfs3"; do
     grab_module "$main_mod"
 done

@@ -7,7 +7,7 @@ GemOS is a lightweight, customizable, extensible operating system based on Linux
 ## Features
 - **Minimalist**: Extremely small footprint, focusing only on essential components.
 - **UEFI Support**: Built-in support for UEFI booting via GRUB.
-- **Extension System**: Modular design allowing for easy addition of features (e.g., disk installation).
+- **Extension System**: Modular design allowing for easy addition of features (e.g., disk utils installation).
 
 ## Prerequisites
 To build and run GemOS, you need the following tools installed on your system:
