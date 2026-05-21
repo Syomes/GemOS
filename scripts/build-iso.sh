@@ -11,7 +11,7 @@ GRUB_DIR="tmp/isoroot/boot/grub"
 GRUB_CFG="grub.cfg"
 EFI_IMG="tmp/isoroot/boot/efi.img"
 EFI_EFI="tmp/isoroot/boot/BOOTx64.EFI"
-ISO_OUT="build/syos.iso"
+ISO_OUT="build/gemos.iso"
 
 if [ ! -f "$KERNEL_SRC" ]; then
     echo "ERROR: Kernel not found at $KERNEL_SRC" >&2
@@ -52,7 +52,7 @@ cp "$GRUB_CFG" "$GRUB_DIR"
 # ISO
 echo "==> Building ISO..."
 xorriso -as mkisofs \
-    -V "SYOS" \
+    -V "GemOS" \
     -o "$ISO_OUT" \
     -J -R \
     -partition_offset 16 \

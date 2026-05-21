@@ -1,6 +1,6 @@
 #!/bin/sh
 # ======================
-# Syos rcS - sysinit script
+# GemOS rcS - sysinit script
 # ======================
 
 # --- Basic File System ---
@@ -14,15 +14,15 @@ mount -t tmpfs tmpfs /tmp
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export HOME=/root
 export TERM=linux
-hostname syos
+hostname gemos
 
 # --- Load Extensions ---
-if [ -d /etc/syos/init.d ]; then
-    for f in /etc/syos/init.d/*; do
+if [ -d /etc/gemos/init.d ]; then
+    for f in /etc/gemos/init.d/*; do
         [ -f "$f" ] && sh "$f"
     done
 fi
 
 echo ""
-echo "Welcome to Syos"
+echo "Welcome to GemOS"
 echo ""

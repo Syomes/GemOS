@@ -22,7 +22,7 @@ mkdir -p "$TMP_SLASH"
 
 # Create directory tree
 mkdir -p "$TMP_SLASH/bin" "$TMP_SLASH/sbin" "$TMP_SLASH/etc" "$TMP_SLASH/proc" "$TMP_SLASH/sys" "$TMP_SLASH/dev" "$TMP_SLASH/tmp" "$TMP_SLASH/lib" "$TMP_SLASH/root" "$TMP_SLASH/run"
-mkdir -p "$TMP_SLASH/usr/bin" "$TMP_SLASH/usr/sbin" "$TMP_SLASH/etc/init.d" "$TMP_SLASH/etc/syos/init.d"
+mkdir -p "$TMP_SLASH/usr/bin" "$TMP_SLASH/usr/sbin" "$TMP_SLASH/etc/init.d" "$TMP_SLASH/etc/gemos/init.d"
 
 # Install BusyBox
 cp "$BUSYBOX_BIN" "$TMP_SLASH/bin/busybox"

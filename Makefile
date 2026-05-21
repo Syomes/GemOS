@@ -1,6 +1,6 @@
 SHELL        := /bin/sh
 BUILD_DIR    := build
-ISO_FILE     := $(BUILD_DIR)/syos.iso
+ISO_FILE     := $(BUILD_DIR)/gemos.iso
 OVMF_PATH    := /usr/share/ovmf/x64/OVMF.4m.fd
 QEMU         := qemu-system-x86_64
 

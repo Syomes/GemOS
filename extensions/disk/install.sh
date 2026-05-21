@@ -8,7 +8,7 @@ UTIL_LINUX_URL="https://github.com/pkgforge-dev/util-linux-static/releases/lates
 KERNEL_VERSION="$(uname -r)"
 ROOT_PATH="$(pwd)/tmp/slash"
 MODULE_PATH="tmp/slash/lib/modules/$KERNEL_VERSION"
-INIT_D_DIR="tmp/slash/etc/syos/init.d"
+INIT_D_DIR="tmp/slash/etc/gemos/init.d"
 
 fetch_util_linux() {
     if [ -f "$PKGPATH/$1" ]; then
@@ -59,7 +59,7 @@ done
 echo "==> Writing init script..."
 cat << 'EOF' > "$INIT_D_DIR/01-storage.sh"
 #!/bin/sh
-echo "=== Loading Syos Hardware Drivers ==="
+echo "=== Loading GemOS Hardware Drivers ==="
 
 modprobe loop 2>/dev/null
 modprobe sd_mod 2>/dev/null

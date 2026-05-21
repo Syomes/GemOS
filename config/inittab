@@ -1,5 +1,5 @@
 # ======================
-# Syos inittab
+# GemOS inittab
 # ======================
 
 # sysinit: mount file system, initialize devices, load extensions
