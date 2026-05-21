@@ -12,7 +12,7 @@ GemOS is a lightweight, customizable, extensible operating system based on Linux
 ## Prerequisites
 To build and run GemOS, you need the following tools installed on your system:
 
-- `curl`: To download BusyBox binaries.
+- `curl`: To download packages.
 - `xorriso`: For ISO image creation.
 - `grub-common`: Specifically `grub-mkimage` for creating the EFI bootloader.
 - `mtools` & `dosfstools`: For manipulating EFI system partition images.
