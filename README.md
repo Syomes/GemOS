@@ -32,7 +32,7 @@ sudo pacman -S curl xorriso grub mtools dosfstools binutils qemu-desktop ovmf
 
 ## Getting Started
 ### Build the ISO
-Simply run the following command to fetch the kernel/busybox and build the ISO:
+Simply run the following command to build the ISO:
 ```bash
 make build
 ```
