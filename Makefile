@@ -21,6 +21,9 @@ run:
 		sh scripts/build-initramfs.sh && \
 		sh scripts/build-iso.sh; \
 	fi
+	@echo "==> Preparing disk image..."
+	@qemu-img create -f raw build/disk.img 10G
+
 	@echo "==> Starting QEMU..."
 	@$(QEMU) \
 		-bios $(OVMF_PATH) \
